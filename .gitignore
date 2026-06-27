@@ -2,17 +2,22 @@
 linux/
 linux-7.0/
 
-# Output images
+# Output
 output/
-firmware/debian-rootfs.img
+
+# Firmware binaries
+firmware/debian-rootfs.img*
 firmware/MiniLoaderAll.bin
 firmware/uboot.img
 firmware/recovery.img
 firmware/userdata.img
 firmware/boot.img
+firmware/misc.img
 
-# Downloaded archives
+# Archives
 *.tar.xz
+*.tar.gz
+*.tar.bz2
 *.7z
 *.raw
 *.raw.xz
@@ -21,34 +26,12 @@ fedora-*
 # Cache
 cache/
 
-# Temp
-/tmp/
-
-# Kernel module cache
-linux/kmod-install/
 # Old Debian rootfs
 rootfs/
-7.0-modules.tar.gz
 
-# Misc large
-*.img
-
-# Python cache
+# Python
 __pycache__/
 *.pyc
 
-# Archives
-*.tar.gz
-*.tar.bz2
-*.tar.xz
-
-# Firmware subdir images (keep .its, .txt, misc.img)
-firmware/debian-rootfs.img*
-firmware/MiniLoaderAll.bin
-firmware/uboot.img
-firmware/recovery.img
-firmware/userdata.img
-firmware/boot.img
-
-# U-Boot build
+# U-Boot
 u-boot/
