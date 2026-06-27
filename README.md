@@ -79,6 +79,19 @@ export ARCH=arm64
 
 **输出**: `output/update.img` (~2.4G)
 
+## Vendor Firmware
+
+Before building, copy these files from the Firefly BSP SDK to `firmware/`:
+
+```bash
+# From https://drive.google.com/...  or the Firefly BSP SDK
+cp /path/to/sdk/rkbin/MiniLoaderAll.bin firmware/
+cp /path/to/sdk/u-boot/uboot.img firmware/
+cp /path/to/sdk/rkbin/recovery.img firmware/
+```
+
+Alternatively, get the complete firmware pack from Firefly.
+
 ## Flash to eMMC
 
 使用 RKDevTool (Windows) 或 upgrade_tool (Linux)：
