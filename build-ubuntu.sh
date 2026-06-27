@@ -13,6 +13,25 @@ OUT="$SCRIPT_DIR/output"
 KERNEL="$SCRIPT_DIR/linux"
 ROOTFS_IMG="$FW/debian-rootfs.img"
 
+# Firefly SDK path (set env var FIREFLY_SDK or edit below)
+FIREFLY_SDK="${FIREFLY_SDK:-/home/zxc/Linux6.1_SDK/Linux6.1_SDK/Firefly_SDK}"
+
+# Copy vendor firmware from SDK if available
+copy_from_sdk() {
+    local src="$1" dst="$2"
+    if [ -f "$src" ]; then
+        cp "$src" "$dst" && echo "  $dst (from SDK)" || true
+    else
+        echo "  WARNING: $src not found, keep existing $dst"
+    fi
+}
+
+if [ -d "$FIREFLY_SDK" ]; then
+    echo "=== SDK found at $FIREFLY_SDK ==="
+    copy_from_sdk "$FIREFLY_SDK/u-boot/uboot.img" "$FW/uboot.img"
+    copy_from_sdk "$FIREFLY_SDK/rkbin/RKBOOT/RK3588MINIALL_MiniLoaderAll.bin" "$FW/MiniLoaderAll.bin"
+fi
+
 cleanup() { rm -rf "$ROOTFS_WORK" 2>/dev/null; }
 trap cleanup EXIT
 
