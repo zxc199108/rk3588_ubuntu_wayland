@@ -5,103 +5,70 @@ Firefly AIO-3588L board running Linux 7.1.1 + Ubuntu Noble (24.04) + KDE Plasma 
 ## Prerequisites
 
 ```bash
+# Host tools
 sudo apt install -y build-essential flex bison bc libssl-dev rsync \
   libncurses-dev python3 wget curl git device-tree-compiler
+
+# Firmware source (optional — auto-copies vendor binaries)
+# Set FIREFLY_SDK in env.sh to your Firefly BSP SDK root
+export FIREFLY_SDK=/path/to/Firefly_SDK
 ```
 
 ## Build
 
-### 1. Download kernel 7.1.1 and Ubuntu rootfs
+### 1. Clone and download dependencies
 
 ```bash
-cd ~/rk3588_ubuntu_wayland/
+git clone git@github.com:zxc199108/rk3588_ubuntu_wayland.git
+cd rk3588_ubuntu_wayland
 
-# Download kernel source (150M compressed, ~1.5G extracted)
+# Download Linux 7.1.1 (150M)
 wget https://cdn.kernel.org/pub/linux/kernel/v7.x/linux-7.1.1.tar.xz
-tar xf linux-7.1.1.tar.xz
-mv linux-7.1.1 linux
+tar xf linux-7.1.1.tar.xz && mv linux-7.1.1 linux
 
-# Download Ubuntu Noble cloud rootfs (205M compressed, ~1.2G extracted)
+# Download Ubuntu Noble cloud rootfs (205M)
 wget https://cloud-images.ubuntu.com/releases/noble/release/ubuntu-24.04-server-cloudimg-arm64-root.tar.xz \
   -O ubuntu-noble-rootfs.tar.xz
+
+# Edit env.sh to set your toolchain and SDK paths
 ```
 
-### 2. Apply patches and copy config
+### 2. Apply config and patches
 
 ```bash
-# initramfs alignment fix (required for initrd on ARM)
 cp patches/initramfs.c linux/init/
-
-# Kernel config (panthor GPU, binder, rtw89 WiFi, btrfs)
 cp kernel-config linux/.config
-
-# Board device trees
-cp dts/*.dts dts/*.dtsi linux/arch/arm64/boot/dts/rockchip/
-
-# Add our DTS to the Makefile
+cp dts/* linux/arch/arm64/boot/dts/rockchip/
 grep -q "firefly-aio-3588l" linux/arch/arm64/boot/dts/rockchip/Makefile || \
   echo 'dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3588-firefly-aio-3588l.dtb' \
     >> linux/arch/arm64/boot/dts/rockchip/Makefile
 ```
 
-### 3. Set up toolchain
-
-默认使用 Firefly SDK 预编译工具链，也可替换为你自己的：
-
-```bash
-# 编辑 env.sh 或设置环境变量
-export PATH="/path/to/gcc-arm-10.3/bin:$PATH"
-export CROSS_COMPILE=aarch64-none-linux-gnu-
-export ARCH=arm64
-```
-
-### 4. One-click build
+### 3. One-click build
 
 ```bash
 ./build-ubuntu.sh
 ```
 
-脚本自动执行：
-1. 解压 Ubuntu 云镜像到临时目录
-2. 创建 `/sbin/init` → systemd（Ubuntu 云镜像缺失此项）
-3. 设置 root 密码（root/root）和 firefly 用户（firefly/firefly）
-4. 编译内核模块并安装
-5. 添加 rtw89 + Mali G610 固件
-6. 添加 Wi-Fi 工具（wpa_supplicant + iw + wpa_passphrase + wpa_cli）
-7. 配置清华 apt 镜像源
-8. 禁用 snapd、networkd-wait-online
-9. 修复权限（/tmp 1777, 目录 755）
-10. 创建首次启动服务（resize2fs、home 分区格式化、binder 设备挂载）
-11. 构建 ext4 根文件系统
-12. 重建 boot.img（kernel + DTB + resource）
-13. 打包 update.img
-14. 运行 16 项自检
+Script steps (all automated):
+1. Copies vendor firmware (uboot.img, MiniLoaderAll.bin) from `$FIREFLY_SDK` if available
+2. Extracts Ubuntu cloud rootfs, installs kernel modules + WiFi tools + GPU firmware
+3. Creates `/sbin/init` → systemd, sets root/firefly passwords, fixes permissions
+4. Configures apt (Tsinghua mirror), disables snapd and networkd-wait-online
+5. Creates firstboot service (resize rootfs, format /home, mount binder)
+6. Builds ext4 rootfs image, shrinks to minimum size (`resize2fs -M`)
+7. Rebuilds boot.img (kernel + DTB + resource) from scratch
+8. Packages update.img
+9. Runs 16-point pre-flash self-check
 
-**输出**: `output/update.img` (~2.4G)
-
-## Vendor Firmware
-
-Before building, copy these files from the Firefly BSP SDK to `firmware/`:
-
-```bash
-# From https://drive.google.com/...  or the Firefly BSP SDK
-cp /path/to/sdk/rkbin/MiniLoaderAll.bin firmware/
-cp /path/to/sdk/u-boot/uboot.img firmware/
-cp /path/to/sdk/rkbin/recovery.img firmware/
-```
-
-Alternatively, get the complete firmware pack from Firefly.
+**Output**: `output/update.img` (~2.4G)
 
 ## Flash to eMMC
 
-使用 RKDevTool (Windows) 或 upgrade_tool (Linux)：
-
 ```bash
-# Linux flashing (需要 Firefly SDK 的 upgrade_tool)
+# Using Firefly upgrade_tool (Linux)
 sudo upgrade_tool uf output/update.img
 ```
-
-或使用 SD 卡通过 Maskrom 模式烧录。
 
 ## First Boot
 
@@ -169,11 +136,13 @@ df -h /home
 │   ├── rk3588-firefly-aio-3588l.dts
 │   └── rk3588-firefly-core-3588j.dtsi
 ├── patches/
-│   └── initramfs.c      # initramfs 对齐修复
+│   └── initramfs.c
+├── kernel-config            # .config for Linux 7.1.1
 ├── firmware/
-│   ├── bootramdisk.its  # FIT Image 模板
-│   └── parameter.txt    # 分区布局 (32G rootfs)
-├── tools/               # Rockchip 工具
+│   ├── bootramdisk.its      # FIT Image 模板
+│   ├── parameter.txt        # 分区布局 (32G rootfs)
+│   └── rtw89/               # Wi-Fi 固件
+├── tools/                   # Rockchip 工具
 │   ├── afptool
 │   ├── mkimage
 │   ├── resource_tool
