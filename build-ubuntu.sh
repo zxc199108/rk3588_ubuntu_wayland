@@ -29,7 +29,18 @@ copy_from_sdk() {
 if [ -d "$FIREFLY_SDK" ]; then
     echo "=== SDK found at $FIREFLY_SDK ==="
     copy_from_sdk "$FIREFLY_SDK/u-boot/uboot.img" "$FW/uboot.img"
-    copy_from_sdk "$FIREFLY_SDK/rkbin/RKBOOT/RK3588MINIALL_MiniLoaderAll.bin" "$FW/MiniLoaderAll.bin"
+    # MiniLoaderAll.bin: try pre-built, then boot_merger output
+    for src in \
+        "$FW/MiniLoaderAll.bin" \
+        "$FIREFLY_SDK/rkbin/RKBOOT/RK3588MINIALL_MiniLoaderAll.bin" \
+        "$FIREFLY_SDK/u-boot/MiniLoaderAll.bin" \
+        ; do
+        if [ -f "$src" ]; then
+            [ "$src" != "$FW/MiniLoaderAll.bin" ] && cp "$src" "$FW/"
+            echo "  MiniLoaderAll.bin OK"
+            break
+        fi
+    done
 fi
 
 cleanup() { rm -rf "$ROOTFS_WORK" 2>/dev/null; }
