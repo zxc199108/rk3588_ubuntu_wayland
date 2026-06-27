@@ -1,0 +1,187 @@
+[   13.542176] Modules linked in: rtw89_8852be rtw89_8852b rtw89_8852b_common rtw89_pci rtw89_core mac80211 libarc4 sha256 cfg80211 rfkill fuse backlight dm_mod ipv6
+[   13.543457] CPU: 7 UID: 0 PID: 73 Comm: kworker/u32:2 Not tainted 7.0.12 #27 PREEMPT
+[   13.544141] Hardware name: Firefly AIO-3588L Board (DT)
+[   13.544596] Workqueue: events_unbound deferred_probe_work_func
+[   13.545111] pstate: 80400009 (Nzcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[   13.545718] pc : drm_bridge_detach+0xe0/0xf4
+[   13.546092] lr : drm_encoder_cleanup+0x3c/0xc8
+[   13.546482] sp : ffff800083c639d0
+[   13.546773] x29: ffff800083c639d0 x28: ffff800082c98a00 x27: ffff000106a9e880
+[   13.547397] x26: ffff800083097818 x25: dead000000000100 x24: dead000000000122
+[   13.548020] x23: ffff000102e0a018 x22: ffff0001083ca300 x21: ffff000106831cf0
+[   13.548644] x20: ffff000106831c98 x19: ffff0001083caad0 x18: 00000000ffffffff
+[   13.549268] x17: 6d6f635f32706f76 x16: 2073706f2820706f x15: 0000000000000002
+[   13.549891] x14: 0000000000000012 x13: 0000000000000000 x12: 0000000000000000
+[   13.550515] x11: 0000000000000002 x10: ffff8000819ac5b0 x9 : 0000000000000000
+[   13.551138] x8 : ffff80008320e000 x7 : 00000000000007a3 x6 : 0000000000000008
+[   13.551761] x5 : 0000000000000000 x4 : 0000000000000000 x3 : 0000000000000008
+[   13.552385] x2 : ffff800080a02dc8 x1 : 0000000000000000 x0 : ffff0001083caad0
+[   13.553008] Call trace:
+[   13.553223]  drm_bridge_detach+0xe0/0xf4 (P)
+[   13.553598]  drm_encoder_cleanup+0x3c/0xc8
+[   13.553958]  drmm_encoder_alloc_release+0x1c/0x30
+[   13.554372]  drm_managed_release+0xa8/0x148
+[   13.554741]  drm_dev_put+0x98/0xc0
+[   13.555044]  rockchip_drm_bind+0x88/0x1f8
+[   13.555399]  try_to_bring_up_aggregate_device+0x168/0x1d4
+[   13.555875]  __component_add+0xa4/0x170
+[   13.556214]  component_add+0x14/0x20
+[   13.556530]  dw_dp_probe+0x1c/0x28
+[   13.556832]  platform_probe+0x5c/0xac
+[   13.557154]  really_probe+0xbc/0x2a0
+[   13.557469]  __driver_probe_device+0x80/0x160
+[   13.557853]  driver_probe_device+0x40/0x160
+[   13.558221]  __device_attach_driver+0xb8/0x134
+[   13.558613]  bus_for_each_drv+0x80/0xdc
+[   13.558951]  __device_attach+0xa8/0x1b0
+[   13.559289]  device_initial_probe+0x50/0x54
+[   13.559658]  bus_probe_device+0x38/0xa0
+[   13.559996]  deferred_probe_work_func+0x88/0xc0
+[   13.560395]  process_one_work+0x15c/0x29c
+[   13.560748]  worker_thread+0x208/0x308
+[   13.561077]  kthread+0x120/0x12c
+[   13.561364]  ret_from_fork+0x10/0x20
+[   13.561679] ---[ end trace 0000000000000000 ]---
+[   13.563401] ------------[ cut here ]------------
+[   13.563805] WARNING: drivers/gpu/drm/drm_bridge.c:584 at drm_bridge_detach+0xe0/0xf4, CPU#7: kworker/u32:2/73
+[   13.564671] Modules linked in: rtw89_8852be rtw89_8852b rtw89_8852b_common rtw89_pci rtw89_core mac80211 libarc4 sha256 cfg80211 rfkill fuse backlight dm_mod ipv6
+[   13.565947] CPU: 7 UID: 0 PID: 73 Comm: kworker/u32:2 Tainted: G        W           7.0.12 #27 PREEMPT
+[   13.566764] Tainted: [W]=WARN
+[   13.567022] Hardware name: Firefly AIO-3588L Board (DT)
+[   13.567476] Workqueue: events_unbound deferred_probe_work_func
+[   13.567987] pstate: 20400009 (nzCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[   13.568593] pc : drm_bridge_detach+0xe0/0xf4
+[   13.568966] lr : drm_encoder_cleanup+0x3c/0xc8
+[   13.569355] sp : ffff800083c639d0
+[   13.569644] x29: ffff800083c639d0 x28: ffff800082c98a00 x27: ffff000106a9e880
+[   13.570267] x26: ffff800083097818 x25: dead000000000100 x24: dead000000000122
+[   13.570888] x23: ffff000102e0a018 x22: ffff0001083ca300 x21: ffff000106831cf0
+[   13.571510] x20: ffff000106831c98 x19: ffff0001083caa10 x18: 00000000ffffffff
+[   13.572132] x17: 6d6f635f32706f76 x16: 2073706f2820706f x15: 0000000000000002
+[   13.572754] x14: 0000000000000012 x13: 0000000000000000 x12: 0000000000000000
+[   13.573376] x11: 0000000000000002 x10: ffff8000819ac5b0 x9 : 0000000000000000
+[   13.573998] x8 : ffff80008320e000 x7 : 00000000000007a3 x6 : 0000000000000008
+[   13.574621] x5 : 0000000000000000 x4 : 0000000000000000 x3 : 0000000000000008
+[   13.575242] x2 : ffff0001083ca9c0 x1 : 0000000000000000 x0 : ffff0001083caa10
+[   13.575863] Call trace:
+[   13.576077]  drm_bridge_detach+0xe0/0xf4 (P)
+[   13.576450]  drm_encoder_cleanup+0x3c/0xc8
+[   13.576809]  drmm_encoder_alloc_release+0x1c/0x30
+[   13.577220]  drm_managed_release+0xa8/0x148
+[   13.577589]  drm_dev_put+0x98/0xc0
+[   13.577889]  rockchip_drm_bind+0x88/0x1f8
+[   13.578242]  try_to_bring_up_aggregate_device+0x168/0x1d4
+[   13.578715]  __component_add+0xa4/0x170
+[   13.579053]  component_add+0x14/0x20
+[   13.579367]  dw_dp_probe+0x1c/0x28
+[   13.579667]  platform_probe+0x5c/0xac
+[   13.579987]  really_probe+0xbc/0x2a0
+[   13.580301]  __driver_probe_device+0x80/0x160
+[   13.580682]  driver_probe_device+0x40/0x160
+[   13.581050]  __device_attach_driver+0xb8/0x134
+[   13.581440]  bus_for_each_drv+0x80/0xdc
+[   13.581776]  __device_attach+0xa8/0x1b0
+[   13.582113]  device_initial_probe+0x50/0x54
+[   13.582480]  bus_probe_device+0x38/0xa0
+[   13.582816]  deferred_probe_work_func+0x88/0xc0
+[   13.583213]  process_one_work+0x15c/0x29c
+[   13.583564]  worker_thread+0x208/0x308
+[   13.583892]  kthread+0x120/0x12c
+[   13.584176]  ret_from_fork+0x10/0x20
+[   13.584489] ---[ end trace 0000000000000000 ]---
+[   13.584919] ------------[ cut here ]------------
+[   13.585321] WARNING: drivers/gpu/drm/drm_bridge.c:584 at drm_bridge_detach+0xe0/0xf4, CPU#7: kworker/u32:2/73
+[   13.586183] Modules linked in: rtw89_8852be rtw89_8852b rtw89_8852b_common rtw89_pci rtw89_core mac80211 libarc4 sha256 cfg80211 rfkill fuse backlight dm_mod ipv6
+[   13.587454] CPU: 7 UID: 0 PID: 73 Comm: kworker/u32:2 Tainted: G        W           7.0.12 #27 PREEMPT
+[   13.588271] Tainted: [W]=WARN
+[   13.588531] Hardware name: Firefly AIO-3588L Board (DT)
+[   13.588984] Workqueue: events_unbound deferred_probe_work_func
+[   13.589492] pstate: 20400009 (nzCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[   13.590096] pc : drm_bridge_detach+0xe0/0xf4
+[   13.590468] lr : drm_encoder_cleanup+0x3c/0xc8
+[   13.590856] sp : ffff800083c639d0
+[   13.591144] x29: ffff800083c639d0 x28: ffff800082c98a00 x27: ffff000106a9e880
+[   13.591765] x26: ffff800083097818 x25: dead000000000100 x24: dead000000000122
+[   13.592385] x23: ffff000102e0a018 x22: ffff0001083ca300 x21: ffff000106831cf0
+[   13.593006] x20: ffff000106831c98 x19: ffff0001083ca950 x18: 00000000ffffffff
+[   13.593627] x17: 6d6f635f32706f76 x16: 2073706f2820706f x15: 0000000000000002
+[   13.594247] x14: 0000000000000012 x13: 0000000000000000 x12: 0000000000000000
+[   13.594868] x11: 0000000000000002 x10: ffff8000819ac5b0 x9 : 0000000000000000
+[   13.595488] x8 : ffff80008320e000 x7 : 00000000000007a3 x6 : 0000000000000008
+[   13.596109] x5 : 0000000000000000 x4 : 0000000000000000 x3 : 0000000000000008
+[   13.596730] x2 : ffff0001083ca900 x1 : 0000000000000000 x0 : ffff0001083ca950
+[   13.597351] Call trace:
+[   13.597565]  drm_bridge_detach+0xe0/0xf4 (P)
+[   13.597938]  drm_encoder_cleanup+0x3c/0xc8
+[   13.598296]  drmm_encoder_alloc_release+0x1c/0x30
+[   13.598706]  drm_managed_release+0xa8/0x148
+[   13.599072]  drm_dev_put+0x98/0xc0
+[   13.599371]  rockchip_drm_bind+0x88/0x1f8
+[   13.599722]  try_to_bring_up_aggregate_device+0x168/0x1d4
+[   13.600193]  __component_add+0xa4/0x170
+[   13.600529]  component_add+0x14/0x20
+[   13.600842]  dw_dp_probe+0x1c/0x28
+[   13.601141]  platform_probe+0x5c/0xac
+[   13.601461]  really_probe+0xbc/0x2a0
+[   13.601774]  __driver_probe_device+0x80/0x160
+[   13.602154]  driver_probe_device+0x40/0x160
+[   13.602520]  __device_attach_driver+0xb8/0x134
+[   13.602909]  bus_for_each_drv+0x80/0xdc
+[   13.603244]  __device_attach+0xa8/0x1b0
+[   13.603579]  device_initial_probe+0x50/0x54
+[   13.603945]  bus_probe_device+0x38/0xa0
+[   13.604281]  deferred_probe_work_func+0x88/0xc0
+[   13.604676]  process_one_work+0x15c/0x29c
+[   13.605026]  worker_thread+0x208/0x308
+[   13.605354]  kthread+0x120/0x12c
+[   13.605636]  ret_from_fork+0x10/0x20
+[   13.605949] ---[ end trace 0000000000000000 ]---
+[   13.606371] ------------[ cut here ]------------
+[   13.606773] WARNING: drivers/gpu/drm/drm_bridge.c:584 at drm_bridge_detach+0xe0/0xf4, CPU#7: kworker/u32:2/73
+[   13.607634] Modules linked in: rtw89_8852be rtw89_8852b rtw89_8852b_common rtw89_pci rtw89_core mac80211 libarc4 sha256 cfg80211 rfkill fuse backlight dm_mod ipv6
+[   13.608900] CPU: 7 UID: 0 PID: 73 Comm: kworker/u32:2 Tainted: G        W           7.0.12 #27 PREEMPT
+[   13.609715] Tainted: [W]=WARN
+[   13.609974] Hardware name: Firefly AIO-3588L Board (DT)
+[   13.610428] Workqueue: events_unbound deferred_probe_work_func
+[   13.610937] pstate: 20400009 (nzCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[   13.611540] pc : drm_bridge_detach+0xe0/0xf4
+[   13.611912] lr : drm_encoder_cleanup+0x3c/0xc8
+[   13.612299] sp : ffff800083c639d0
+[   13.612587] x29: ffff800083c639d0 x28: ffff800082c98a00 x27: ffff000106a9e880
+[   13.613207] x26: ffff800083097818 x25: dead000000000100 x24: dead000000000122
+[   13.613827] x23: ffff000102e0a018 x22: ffff0001083ca300 x21: ffff000106831cf0
+[   13.614447] x20: ffff000106831c98 x19: ffff0001083ca890 x18: 00000000ffffffff
+[   13.615068] x17: 6d6f635f32706f76 x16: 2073706f2820706f x15: 0000000000000002
+[   13.615687] x14: 0000000000000012 x13: 0000000000000000 x12: 0000000000000000
+[   13.616308] x11: 0000000000000002 x10: ffff8000819ac5b0 x9 : 0000000000000000
+[   13.616929] x8 : ffff80008320e000 x7 : 00000000000007a3 x6 : 0000000000000008
+[   13.617549] x5 : 0000000000000000 x4 : 0000000000000000 x3 : 0000000000000008
+[   13.618170] x2 : ffff0001083ca840 x1 : 0000000000000000 x0 : ffff0001083ca890
+[   13.618790] Call trace:
+[   13.619004]  drm_bridge_detach+0xe0/0xf4 (P)
+[   13.619375]  drm_encoder_cleanup+0x3c/0xc8
+[   13.619733]  drmm_encoder_alloc_release+0x1c/0x30
+[   13.620143]  drm_managed_release+0xa8/0x148
+[   13.620508]  drm_dev_put+0x98/0xc0
+[   13.620807]  rockchip_drm_bind+0x88/0x1f8
+[   13.621158]  try_to_bring_up_aggregate_device+0x168/0x1d4
+[   13.621629]  __component_add+0xa4/0x170
+[   13.621964]  component_add+0x14/0x20
+[   13.622277]  dw_dp_probe+0x1c/0x28
+[   13.622575]  platform_probe+0x5c/0xac
+[   13.622894]  really_probe+0xbc/0x2a0
+[   13.623207]  __driver_probe_device+0x80/0x160
+[   13.623588]  driver_probe_device+0x40/0x160
+[   13.623953]  __device_attach_driver+0xb8/0x134
+[   13.624341]  bus_for_each_drv+0x80/0xdc
+[   13.624675]  __device_attach+0xa8/0x1b0
+[   13.625011]  device_initial_probe+0x50/0x54
+[   13.625376]  bus_probe_device+0x38/0xa0
+[   13.625711]  deferred_probe_work_func+0x88/0xc0
+[   13.626106]  process_one_work+0x15c/0x29c
+[   13.626455]  worker_thread+0x208/0x308
+[   13.626782]  kthread+0x120/0x12c
+[   13.627066]  ret_from_fork+0x10/0x20
+[   13.627378] ---[ end trace 0000000000000000 ]---
+[   13.627801] ------------[ cut here ]------------
+
