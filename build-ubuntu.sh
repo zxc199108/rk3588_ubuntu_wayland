@@ -44,7 +44,7 @@ cp -a "$SCRIPT_DIR/linux/kmod-install/lib/modules" "$ROOTFS_WORK/lib/" 2>/dev/nu
     cp -a "$SCRIPT_DIR/linux/kmod-install/lib/modules" "$ROOTFS_WORK/lib/"
 }
 mkdir -p "$ROOTFS_WORK/lib/firmware/rtw89/"
-cp "$SCRIPT_DIR/rootfs/lib/firmware/rtw89/"*.bin "$ROOTFS_WORK/lib/firmware/rtw89/" 2>/dev/null || true
+cp "$SCRIPT_DIR/firmware/rtw89/"*.bin "$ROOTFS_WORK/lib/firmware/rtw89/" 2>/dev/null || true
 mkdir -p "$ROOTFS_WORK/lib/firmware/arm/mali/arch10.8/"
 MALI_FW="/home/zxc/Linux6.1_SDK/Linux6.1_SDK/Firefly_SDK/external/libmali/firmware/g610/mali_csffw.bin"
 if [ -f "$MALI_FW" ]; then
